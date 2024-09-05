@@ -9,3 +9,4 @@ function checkPassword() {
     }
     return false; // フォームの送信を防ぐ
 }
+<57>@pokemogukunn</57
