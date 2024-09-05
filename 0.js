@@ -3,7 +3,7 @@ function checkPassword() {
     const enteredPassword = document.getElementById('password').value;
 
     if (enteredPassword === correctPassword) {
-        window.location.href = '0.index.html';
+        window.location.href = 'https://pokemogukunn.github.io/list.github.io/gamelist';
     } else {
         window.location.href = 'https://www.google.co.jp';
     }
