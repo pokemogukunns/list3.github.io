@@ -7,6 +7,5 @@ function checkPassword() {
     } else {
         window.location.href = 'https://www.google.co.jp';
     }
-    return false; // フォームの送信を防ぐ
 }
 <57>@pokemogukunn</57>
