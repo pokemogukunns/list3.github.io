@@ -1,25 +1,81 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #copyButton1, #copyButton2 {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007BFF; /* 青色 */
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        #copyButton1:hover, #copyButton2:hover {
+            background-color: #0056b3; /* ホバー時の色 */
+        }
+        #textBox {
+            width: 100%;
+            height: 150px;
+            margin-top: 10px;
+            font-size: 16px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
 <h1>
   まず、以下のボタンを押して、コピーしてください。
   
 </h1><br>
-<style>
-        #copyButton {
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #copyButton1, #copyButton2 {
             margin-top: 10px;
             padding: 10px 20px;
-            background-color: #4CAF50;
+            background-color: #007BFF; /* 青色 */
             color: white;
             border: none;
             cursor: pointer;
+            border-radius: 4px;
         }
-        #copyButton:hover {
-            background-color: #45a049;
+        #copyButton1:hover, #copyButton2:hover {
+            background-color: #0056b3; /* ホバー時の色 */
+        }
+        #textBox {
+            width: 100%;
+            height: 150px;
+            margin-top: 10px;
+            font-size: 16px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
     </style>
-<p id="textToCopy">https://inv.nadeko.net/api/v1/videos/任意のYoutubeのVideoID</p>
-    <button id="copyButton">コピー</button><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</head>
+
+    <textarea id="textBox">https://inv.nadeko.net/api/v1/videos/任意のYoutubeのVideoID</textarea>
+    <button id="copyButton1">テキストボックスをコピー</button>
+    <button id="copyButton2">別のテキストをコピー</button>
+<h2>
+  次にこのテキストボックスを編集し、見たいビデオIDに変えてください。
+</h2>
+    <p id="textToCopy">https://inv.nadeko.net/api/v1/videos/任意のYoutubeのVideoID</p>
 
     <script>
-        document.getElementById('copyButton').onclick = function() {
+        document.getElementById('copyButton1').onclick = function() {
+            const text = document.getElementById('textBox').value;
+            navigator.clipboard.writeText(text).then(function() {
+                alert('コピーしました: ' + text);
+            }, function(err) {
+                console.error('コピーに失敗しました:', err);
+            });
+        };
+
+        document.getElementById('copyButton2').onclick = function() {
             const text = document.getElementById('textToCopy').innerText;
             navigator.clipboard.writeText(text).then(function() {
                 alert('コピーしました: ' + text);
@@ -29,6 +85,7 @@
         };
     </script>
 
+    <button id="copyButton">コピー</button><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 
 <dev id="start">
