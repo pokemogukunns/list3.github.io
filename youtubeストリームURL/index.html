@@ -1,8 +1,33 @@
 <h1>
-  まず、以下をコピーしてください。
+  まず、以下のボタンを押して、コピーしてください。
   
 </h1><br>
+<style>
+        #copyButton {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #copyButton:hover {
+            background-color: #45a049;
+        }
+    </style>
+<p id="textToCopy">https://inv.nadeko.net/api/v1/videos/任意のYoutubeのVideoID</p>
+    <button id="copyButton">コピー</button><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
+    <script>
+        document.getElementById('copyButton').onclick = function() {
+            const text = document.getElementById('textToCopy').innerText;
+            navigator.clipboard.writeText(text).then(function() {
+                alert('コピーしました: ' + text);
+            }, function(err) {
+                console.error('コピーに失敗しました:', err);
+            });
+        };
+    </script>
 
 
 
