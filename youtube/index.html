@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Video Embed</title>
+</head>
+<body>
+  <h1>YouTube URLを入力してください</h1>
+
+  <!-- ユーザーからYouTube URLを入力してもらうテキストボックス -->
+  <input type="text" id="youtubeUrl" placeholder="YouTube URLを入力">
+  <button onclick="embedVideo()">動画を埋め込む</button>
+
+  <h2>埋め込まれた動画:</h2>
+  <!-- 動画を表示する場所 -->
+  <div id="videoContainer"></div>
+
+  <script>
+    function embedVideo() {
+      // ユーザーが入力したURLを取得
+      const url = document.getElementById('youtubeUrl').value;
+
+      // YouTubeのVideo IDを取得するための正規表現
+      const youtubeRegex = /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+
+      // 正規表現でVideo IDを抽出
+      const match = url.match(youtubeRegex);
+
+      if (match) {
+        // Video IDを取得
+        const videoId = match[1];
+
+        // 埋め込みURLを作成
+        const embedUrl = `https://inv.nadeko.net/embed/${videoId}`;
+
+        // <video>タグを作成
+        const videoTag = `<video controls>
+                            <source src="${embedUrl}" type="video/mp4">
+                            お使いのブラウザは動画タグに対応していません。
+                          </video>`;
+
+        // videoContainerに埋め込む
+        document.getElementById('videoContainer').innerHTML = videoTag;
+      } else {
+        // URLが正しくない場合のエラーメッセージ
+        alert('正しいYouTube URLを入力してください');
+      }
+    }
+  </script>
+</body>
+</html>
