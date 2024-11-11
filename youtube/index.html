@@ -3,47 +3,71 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YouTube Video Embed</title>
+  <title>Video Embedder</title>
 </head>
 <body>
-  <h1>YouTube URLを入力してください</h1>
+  <h1>YouTube URLを入力して動画を埋め込む</h1>
 
-  <!-- ユーザーからYouTube URLを入力してもらうテキストボックス -->
+  <!-- ユーザーがYouTube URLを入力するテキストボックス -->
   <input type="text" id="youtubeUrl" placeholder="YouTube URLを入力">
   <button onclick="embedVideo()">動画を埋め込む</button>
 
   <h2>埋め込まれた動画:</h2>
-  <!-- 動画を表示する場所 -->
+  <!-- 動画が表示される場所 -->
   <div id="videoContainer"></div>
 
   <script>
-    function embedVideo() {
+    async function embedVideo() {
       // ユーザーが入力したURLを取得
       const url = document.getElementById('youtubeUrl').value;
 
-      // YouTubeのVideo IDを取得するための正規表現
+      // YouTubeのVideo IDを抽出する正規表現
       const youtubeRegex = /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
 
-      // 正規表現でVideo IDを抽出
+      // URLからVideo IDを取得
       const match = url.match(youtubeRegex);
 
       if (match) {
         // Video IDを取得
         const videoId = match[1];
 
-        // 埋め込みURLを作成
-        const embedUrl = `https://inv.nadeko.net/embed/${videoId}`;
+        // APIエンドポイントURLを作成
+        const apiUrl = `https://inv.nadeko.net/api/v1/videos/${videoId}`;
 
-        // <video>タグを作成
-        const videoTag = `<video controls>
-                            <source src="${embedUrl}" type="video/mp4">
-                            お使いのブラウザは動画タグに対応していません。
-                          </video>`;
+        try {
+          // APIから動画情報を取得
+          const response = await fetch(apiUrl);
 
-        // videoContainerに埋め込む
-        document.getElementById('videoContainer').innerHTML = videoTag;
+          if (response.ok) {
+            const videoData = await response.json();
+
+            // "formatStreams" 配列から、最初の動画URLを取得
+            const videoStream = videoData.formatStreams.find(stream => stream.container === 'mp4' && stream.quality === 'medium');
+
+            if (videoStream) {
+              // 動画URLを取得
+              const videoUrl = videoStream.url;
+
+              // <video>タグを作成
+              const videoTag = `<video controls>
+                                  <source src="${videoUrl}" type="video/mp4">
+                                  お使いのブラウザは動画タグに対応していません。
+                                </video>`;
+
+              // videoタグをページに追加
+              document.getElementById('videoContainer').innerHTML = videoTag;
+            } else {
+              alert('適切な動画ストリームが見つかりませんでした。');
+            }
+          } else {
+            alert('動画の取得に失敗しました。');
+          }
+        } catch (error) {
+          console.error('エラー:', error);
+          alert('動画を取得する際にエラーが発生しました。');
+        }
       } else {
-        // URLが正しくない場合のエラーメッセージ
+        // URLがYouTube形式でない場合のエラーメッセージ
         alert('正しいYouTube URLを入力してください');
       }
     }
